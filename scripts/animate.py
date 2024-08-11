@@ -171,6 +171,6 @@ if __name__ == "__main__":
     parser.add_argument("--L", type=int, default=16 )
     parser.add_argument("--W", type=int, default=512)
     parser.add_argument("--H", type=int, default=512)
-
+    parser.add_argument("--F", type=str, default="video0000")
     args = parser.parse_args()
     main(args)
