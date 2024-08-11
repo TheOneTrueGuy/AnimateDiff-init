@@ -31,7 +31,7 @@ import shutil
 def main(args):
     *_, func_args = inspect.getargvalues(inspect.currentframe())
     func_args = dict(func_args)
-    
+    videofilename=args.F
     time_str = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
     savedir = f"samples/{Path(args.config).stem}-{time_str}"
     os.makedirs(savedir)
@@ -171,6 +171,6 @@ if __name__ == "__main__":
     parser.add_argument("--L", type=int, default=16 )
     parser.add_argument("--W", type=int, default=512)
     parser.add_argument("--H", type=int, default=512)
-    parser.add_argument("--F", type=str, default="video0000") # use in main to save in specific file name
+    parser.add_argument("--filename", type=str, default="video0000") # use in main to save in specific file name
     args = parser.parse_args()
     main(args)
