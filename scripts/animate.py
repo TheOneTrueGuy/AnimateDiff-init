@@ -147,10 +147,10 @@ def main(args):
                     video_length        = args.L,
                 ).videos
                 samples.append(sample)
-
+               # should be able to save last image as st.png here
                 prompt = "-".join((prompt.replace("/", "").split(" ")[:10]))
                 save_videos_grid(sample, f"{savedir}/sample/{sample_idx}-{videofilename}.gif")
-                print(f"save to {savedir}/sample/{prompt}.gif")
+                print(f"save to {savedir}/sample/{videofilename}.gif")
                 
                 sample_idx += 1
 
