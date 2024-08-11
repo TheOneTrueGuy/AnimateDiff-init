@@ -31,7 +31,7 @@ import shutil
 def main(args):
     *_, func_args = inspect.getargvalues(inspect.currentframe())
     func_args = dict(func_args)
-    videofilename=args.F
+    videofilename=args.filename
     time_str = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
     savedir = f"samples/{Path(args.config).stem}-{time_str}"
     os.makedirs(savedir)
@@ -149,7 +149,7 @@ def main(args):
                 samples.append(sample)
 
                 prompt = "-".join((prompt.replace("/", "").split(" ")[:10]))
-                save_videos_grid(sample, f"{savedir}/sample/{sample_idx}-{prompt}.gif")
+                save_videos_grid(sample, f"{savedir}/sample/{sample_idx}-{videofilename}.gif")
                 print(f"save to {savedir}/sample/{prompt}.gif")
                 
                 sample_idx += 1
