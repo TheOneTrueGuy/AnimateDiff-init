@@ -154,6 +154,10 @@ def main(args):
                 
                 sample_idx += 1
 
+       # Extract the last frame of the video to use as the next init_image
+    last_frame = sample[:, :, -1, :, :]  # Assuming sample is a tensor with shape (batch, channels, frames, height, width)
+    init_image = last_frame  # Update init_image for the next prompt
+   
     samples = torch.concat(samples)
     save_videos_grid(samples, f"{savedir}/sample.gif", n_rows=4)
 
