@@ -27,6 +27,11 @@ import math
 from pathlib import Path
 import shutil
 
+def read_prompts_from_file(file_path):
+    with open(file_path, 'r') as file:
+        prompts = [line.strip() for line in file if line.strip()]
+    return prompts
+
 
 def main(args):
     *_, func_args = inspect.getargvalues(inspect.currentframe())
@@ -118,7 +123,9 @@ def main(args):
             pipeline.to("cuda")
             ### <<< create validation pipeline <<< ###
 
-            prompts      = model_config.prompt
+            #prompts      = model_config.prompt
+            prompts = read_prompts_from_file(args.prompts_file)
+
             n_prompts    = list(model_config.n_prompt) * len(prompts) if len(model_config.n_prompt) == 1 else model_config.n_prompt
             init_image   = model_config.init_image if hasattr(model_config, 'init_image') else None
 
@@ -171,7 +178,8 @@ if __name__ == "__main__":
     parser.add_argument("--pretrained_model_path", type=str, default="models/StableDiffusion/stable-diffusion-v1-5",)
     parser.add_argument("--inference_config",      type=str, default="configs/inference/inference.yaml")    
     parser.add_argument("--config",                type=str, required=True)
-    
+    parser.add_argument("--prompts_file", type=str, required=True, help="Path to the text file containing prompts")
+
     parser.add_argument("--L", type=int, default=16 )
     parser.add_argument("--W", type=int, default=512)
     parser.add_argument("--H", type=int, default=512)
