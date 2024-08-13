@@ -156,9 +156,11 @@ def main(args):
                 samples.append(sample)
                 
                 # Extract the last frame of the video to use as the next init_image
-                last_frame = sample[:, :, -1, :, :]  # Assuming sample is a tensor with shape (batch, channels, frames, height, width)
-                init_image = last_frame  # Update init_image for the next prompt
-   
+                #last_frame = sample[:, :, -1, :, :]  # Assuming sample is a tensor with shape (batch, channels, frames, height, width)
+                #init_image = last_frame  # Update init_image for the next prompt
+                # won't work, see animatediff/pipelines/pipeline_animation.py see prepare_latents() line 292 or so
+                # may as well switch back to doing this per-iter
+                
                 prompt = "-".join((prompt.replace("/", "").split(" ")[:10]))
                 save_videos_grid(sample, f"{savedir}/sample/{sample_idx}-{videofilename}.gif")
                 print(f"save to {savedir}/sample/{videofilename}.gif")
