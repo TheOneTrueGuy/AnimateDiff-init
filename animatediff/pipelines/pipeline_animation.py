@@ -287,7 +287,7 @@ class AnimationPipeline(DiffusionPipeline):
 
     def prepare_latents(self, init_image, batch_size, num_channels_latents, video_length, height, width, dtype, device, generator, latents=None):
         shape = (batch_size, num_channels_latents, video_length, height // self.vae_scale_factor, width // self.vae_scale_factor)
-        # adjust animate.py init_image
+        # adjust animate.py init_image line 158 or so
         if init_image is not None:
             image = PIL.Image.open(init_image)
             image = preprocess_image(image)
