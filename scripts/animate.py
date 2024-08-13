@@ -154,12 +154,7 @@ def main(args):
                     video_length        = args.L,
                 ).videos
                 samples.append(sample)
-                
-                # Extract the last frame of the video to use as the next init_image
-                #last_frame = sample[:, :, -1, :, :]  # Assuming sample is a tensor with shape (batch, channels, frames, height, width)
-                #init_image = last_frame  # Update init_image for the next prompt
-                # won't work, see animatediff/pipelines/pipeline_animation.py see prepare_latents() line 292 or so
-                # may as well switch back to doing this per-iter
+                # init_image is just a path and filename loaded in prepare_latents() in animation_pipeline around line 292
                 
                 prompt = "-".join((prompt.replace("/", "").split(" ")[:10]))
                 save_videos_grid(sample, f"{savedir}/sample/{sample_idx}-{videofilename}.gif")
