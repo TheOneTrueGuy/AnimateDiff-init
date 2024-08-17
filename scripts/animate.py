@@ -157,7 +157,8 @@ def main(args):
                 # init_image is just a path and filename loaded in prepare_latents() in animation_pipeline around line 292
                 
                 prompt = "-".join((prompt.replace("/", "").split(" ")[:10]))
-                save_videos_grid(sample, f"{savedir}/sample/{sample_idx}-{videofilename}.gif")
+                
+                save_videos_grid(sample, f"{savedir}/sample/{videofilename}.gif")
                 print(f"save to {savedir}/sample/{videofilename}.gif")
                 
                 sample_idx += 1
@@ -167,7 +168,7 @@ def main(args):
 
     OmegaConf.save(config, f"{savedir}/config.yaml")
     if init_image is not None:
-        shutil.copy(init_image, f"{savedir}/init_image.jpg")
+        shutil.copy(init_image, f"{savedir}/{prompt_idx}-init_image.jpg")
 
 
 if __name__ == "__main__":
