@@ -180,6 +180,6 @@ if __name__ == "__main__":
     parser.add_argument("--L", type=int, default=16 )
     parser.add_argument("--W", type=int, default=512)
     parser.add_argument("--H", type=int, default=512)
-    parser.add_argument("--filename", type=str, default="video0000") # use in main to save in specific file name
+    parser.add_argument("--filename", type=str, default="0000") # use in main to save in specific file name
     args = parser.parse_args()
     main(args)
