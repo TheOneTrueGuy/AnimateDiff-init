@@ -30,7 +30,7 @@ import shutil
 import numpy as np
 from PIL import Image
 
-def save_individual_frames(video_array, save_path, filename_prefix):
+def save_individual_frames(video_array, save_path, filename_prefix, save_last_frame=True):
     # video_array shape: (batch, channels, frames, height, width)
     # We assume batch size is 1 for simplicity
     video = video_array[0].transpose(1, 2, 3, 0)  # (frames, height, width, channels)
@@ -44,6 +44,15 @@ def save_individual_frames(video_array, save_path, filename_prefix):
         image.save(f"{save_path}/{filename_prefix}_frame_{i:04d}.png")
 
     print(f"Saved {len(video)} frames to {save_path}")
+
+    # Save the last frame separately
+    if save_last_frame:
+        last_frame = video[-1]
+        last_frame_uint8 = (last_frame * 255).astype(np.uint8)
+        last_image = Image.fromarray(last_frame_uint8)
+        last_frame_path = f"{save_path}/st.png"
+        last_image.save(last_frame_path)
+        print(f"Saved last frame to {last_frame_path}")
 
 
 def read_prompts_from_file(file_path):
