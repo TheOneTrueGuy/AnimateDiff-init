@@ -27,6 +27,25 @@ import math
 from pathlib import Path
 import shutil
 
+import numpy as np
+from PIL import Image
+
+def save_individual_frames(video_array, save_path, filename_prefix):
+    # video_array shape: (batch, channels, frames, height, width)
+    # We assume batch size is 1 for simplicity
+    video = video_array[0].transpose(1, 2, 3, 0)  # (frames, height, width, channels)
+    
+    for i, frame in enumerate(video):
+        # Convert from float [0,1] to uint8 [0,255]
+        frame_uint8 = (frame * 255).astype(np.uint8)
+        
+        # Convert to PIL Image and save
+        image = Image.fromarray(frame_uint8)
+        image.save(f"{save_path}/{filename_prefix}_frame_{i:04d}.png")
+
+    print(f"Saved {len(video)} frames to {save_path}")
+
+
 def read_prompts_from_file(file_path):
     with open(file_path, 'r') as file:
         prompts = [line.strip() for line in file if line.strip()]
@@ -160,6 +179,10 @@ def main(args):
                 
                 save_videos_grid(sample, f"{savedir}/sample/{videofilename}.gif")
                 print(f"save to {savedir}/sample/{videofilename}.gif")
+
+                frames_dir = f"{savedir}/frames/{videofilename}"
+                os.makedirs(frames_dir, exist_ok=True)
+                save_individual_frames(sample.cpu().numpy(), frames_dir, videofilename)
                 
                 sample_idx += 1
 
@@ -168,7 +191,7 @@ def main(args):
 
     OmegaConf.save(config, f"{savedir}/config.yaml")
     if init_image is not None:
-        shutil.copy(init_image, f"{savedir}/{prompt_idx}-init_image.jpg")
+        shutil.copy(init_image, f"{savedir}/{sample_idx}-init_image.jpg")
 
 
 if __name__ == "__main__":
