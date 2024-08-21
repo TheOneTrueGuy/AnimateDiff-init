@@ -208,7 +208,7 @@ if __name__ == "__main__":
     parser.add_argument("--pretrained_model_path", type=str, default="models/StableDiffusion/stable-diffusion-v1-5",)
     parser.add_argument("--inference_config",      type=str, default="configs/inference/inference.yaml")    
     parser.add_argument("--config",                type=str, required=True)
-    parser.add_argument("--prompts_file", type=str, required=True, help="Path to the text file containing prompts")
+    #parser.add_argument("--prompts_file", type=str, required=True, help="Path to the text file containing prompts")
 
     parser.add_argument("--L", type=int, default=16 )
     parser.add_argument("--W", type=int, default=512)
