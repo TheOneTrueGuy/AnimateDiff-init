@@ -97,12 +97,20 @@ def main(args):
             # 1. unet ckpt
             # 1.1 motion module
             motion_module_state_dict = torch.load(motion_module, map_location="cpu")
-            if "global_step" in motion_module_state_dict: func_args.update({"global_step": motion_module_state_dict["global_step"]})
-            missing, unexpected = pipeline.unet.load_state_dict(motion_module_state_dict, strict=False)
-            #assert len(unexpected) == 0
+            if "global_step" in motion_module_state_dict: 
+              func_args.update({"global_step": motion_module_state_dict["global_step"]})
+
+            # Extract only the model weights
+            if "state_dict" in motion_module_state_dict:
+              model_weights = motion_module_state_dict["state_dict"]
+            else:
+              model_weights = motion_module_state_dict
+
+            missing, unexpected = pipeline.unet.load_state_dict(model_weights, strict=False)
             if len(unexpected) > 0:
-                print("Unexpected keys:", unexpected)
-                raise RuntimeError("Unexpected keys found in motion module state dict")
+              print(f"Warning: {len(unexpected)} unexpected keys in motion module were not loaded:")
+              print(unexpected)
+                
             # 1.2 T2I
             if model_config.path != "":
                 if model_config.path.endswith(".ckpt"):
