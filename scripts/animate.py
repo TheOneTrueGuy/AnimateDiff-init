@@ -99,8 +99,10 @@ def main(args):
             motion_module_state_dict = torch.load(motion_module, map_location="cpu")
             if "global_step" in motion_module_state_dict: func_args.update({"global_step": motion_module_state_dict["global_step"]})
             missing, unexpected = pipeline.unet.load_state_dict(motion_module_state_dict, strict=False)
-            assert len(unexpected) == 0
-            
+            #assert len(unexpected) == 0
+            if len(unexpected) > 0:
+                print("Unexpected keys:", unexpected)
+                raise RuntimeError("Unexpected keys found in motion module state dict")
             # 1.2 T2I
             if model_config.path != "":
                 if model_config.path.endswith(".ckpt"):
